@@ -1,0 +1,17 @@
+.hidden {
+  display: none;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200px;
+}
+.hello,
+.login-form {
+  font-size: 50px;
+  margin-bottom: 100px;
+}
+#clock {
+  font-size: 100px;
+}

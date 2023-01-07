@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>calendar</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <table id="calendar_table">
+      <tr id="mainBar">
+        <td id="preventMonth" colspan="1">
+          <input type="button" id="preventMonth_Button" onclick="prevMonth()" />
+        </td>
+        <td id="yearMonth" colspan="5"></td>
+        <td id="nextMonth" colspan="1">
+          <input type="button" id="nextMonth_Button" onclick="nextMonth()" />
+        </td>
+      </tr>
+      <tr>
+        <td>일</td>
+        <td>월</td>
+        <td>화</td>
+        <td>수</td>
+        <td>목</td>
+        <td>금</td>
+        <td>토</td>
+      </tr>
+    </table>
+
+    <script src="calendar.js"></script>
+  </body>
+</html>

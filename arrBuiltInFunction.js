@@ -19,11 +19,9 @@ const newArr2 = arr.map((elm) => {
 console.log(newArr2);
 
 let number = 3; //arr안에 3이 있는지 확인 할려면
-arr.forEach((elm) => {
-  if (elm === 3) {
-    console.log(true);
-  }
-}); //너무 길어
+if (elm === 3) {
+  console.log(true);
+} //너무 길어
 //include 내장함수 사용
 console.log(arr.includes(number));
 
@@ -38,6 +36,7 @@ const arr2 = [
 console.log(
   arr.findIndex((elm) => {
     return elm.color === "green";
+    
   })
 ); // 해당 코드는 인덱스만 가져오게 된다
 //인덱스가 아닌 요소에 직접 접근하고 싶다면
@@ -57,9 +56,10 @@ console.log(element);
 console.log(
   arr2.filter((elm) => {
     elm.color === "blue";
+    
   })
 ); //color가 blue인 모든 객체의 모든 정보를 가져옴
-
+con
 //배열을 자르고 싶다면
 //slice 내장함수 사용
 console.log(arr2.slice(0, 3)); //0~2번째 까지의 배열이 반환됨
@@ -68,6 +68,7 @@ const arr3 = [
   { num: 1, color: "red" },
   { num: 2, color: "blue" },
   { num: 3, color: "green" },
+  {}
 ];
 const arr4 = [
   { num: 4, color: "black" },

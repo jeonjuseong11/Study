@@ -20,4 +20,4 @@ const getMeal2 = (mealType) =>{
   return meal[mealType] || "굶기"
 };
 console.log(getMeal2("중식"));//중식의 키를 갖는 멘보샤 리턴
-console.log(getMeal2());
+console.log(getMeal2());//굶기

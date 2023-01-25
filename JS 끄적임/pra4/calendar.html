@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style/style.css" />
-    <title>Document</title>
+    <title>신년 계획 플래너</title>
   </head>
   <body>
     <div class="container">
@@ -13,6 +13,19 @@
         <div class="clicked-date">
           <div class="cal-day"></div>
           <div class="cal-date"></div>
+          <div class="todo-title">Todo List</div>
+          <div class="input-wrap">
+            <input
+              type="text"
+              placeholder="해야할 일정을 추가하세요"
+              id="input-box"
+              class="input-box"
+            />
+            <button type="button" id="input-data" class="input-data">
+              추가
+            </button>
+            <div id="input-list" class="input-list"></div>
+          </div>
         </div>
         <div class="calendar-box">
           <div class="ctr-box clearfix">
@@ -39,5 +52,6 @@
       </div>
     </div>
     <script src="js/calendar.js"></script>
+    <script src="js/todo.js"></script>
   </body>
 </html>

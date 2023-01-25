@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <h1 id="clock">00:00:00</h1>
+    <h1 id="clock"></h1>
     <form class="hidden" id="login-form">
       <input
         type="text"
@@ -19,7 +19,15 @@
       <input type="submit" value="Log in" />
     </form>
     <h1 id="hello" class="hidden"></h1>
+    <form id="toDoForm">
+      <input type="text" id="todoTask" />
+      <input type="date" id="todoDate" />
+      <button id="add-button">추가</button>
+    </form>
+    <div>할 일</div>
+    <ul class="toDoList"></ul>
     <script src="js/login.js"></script>
     <script src="js/clock.js"></script>
+    <script src="js/todo.js"></script>
   </body>
 </html>

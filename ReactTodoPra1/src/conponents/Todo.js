@@ -37,6 +37,7 @@ const Todo = (props) => {
     }
     setOpenHandler();
   };
+
   const checkboxEventHandler = (e) => {
     item.done = e.target.checked;
     editItem();
@@ -49,6 +50,7 @@ const Todo = (props) => {
       <Checkbox checked={item.done} onChange={checkboxEventHandler} />
       <ListItemText>
         <InputBase
+          className={`${item.done ? "checked" : ""}`}
           inputProps={{ "aria-label": "naked", readOnly: true }}
           type="text"
           id={item.id}
@@ -60,7 +62,7 @@ const Todo = (props) => {
       </ListItemText>
       <ListItemSecondaryAction>
         <IconButton aria-label="Modify Todo" onClick={turnOffReadOnly}>
-          <CreateOutlinedIcon />
+          {item.done ? "" : <CreateOutlinedIcon />}
         </IconButton>
         <IconButton aria-label="Delete Todo" onClick={deleteEventHandler}>
           <DeleteOutlined />
@@ -82,8 +84,8 @@ const Todo = (props) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={turnOnReadOnly}>수정</Button>
-          <Button onClick={setOpenHandler}>취소</Button>
+          <Button onClick={turnOnReadOnly}>save</Button>
+          <Button onClick={setOpenHandler}>cancel</Button>
         </DialogActions>
       </Dialog>
     </ListItem>

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { List, Paper, Container } from "@mui/material";
 import AddTodo from "./conponents/AddTodo";
 import Today from "./conponents/Today";
+import Remain from "./conponents/Remain";
 import { useEffect } from "react";
 function App() {
   useEffect(() => {
@@ -13,8 +14,8 @@ function App() {
   const [items, setItems] = useState([]);
   const addItem = (item) => {
     item.id = `ID: ${items.length}`; //key를 위한 id
-    item.done = false; //done 초기화
-    setItems([...items, item]); //배열에 추가
+    item.done = false;
+    setItems([...items, item]);
     localStorage.setItem("todos", JSON.stringify(items));
     console.log("items : ", items);
   };
@@ -48,6 +49,7 @@ function App() {
       <Container>
         <h1>TODO LIST</h1>
         <Today />
+        <Remain />
         <AddTodo addItem={addItem} />
         <div className="TodoList">{todoItems}</div>
       </Container>

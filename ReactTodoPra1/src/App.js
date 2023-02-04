@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { List, Paper, Container } from "@mui/material";
 import AddTodo from "./conponents/AddTodo";
 import Today from "./conponents/Today";
-import Remain from "./conponents/Remain";
 import { useEffect } from "react";
 function App() {
   useEffect(() => {
@@ -49,7 +48,6 @@ function App() {
       <Container>
         <h1>TODO LIST</h1>
         <Today />
-        <Remain />
         <AddTodo addItem={addItem} />
         <div className="TodoList">{todoItems}</div>
       </Container>

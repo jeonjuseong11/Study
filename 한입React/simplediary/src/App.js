@@ -32,7 +32,7 @@ import DiaryList from "./DiaryList";
 
 function App() {
   const [data, setData] = useState([]);
-  const dataId = useRef(0);
+  const dataId = useRef(1);
   const onCreate = (author, content, emotion) => {
     const created_date = new Date().getTime();
     const newItem = {
@@ -45,10 +45,27 @@ function App() {
     dataId.current += 1; //다음 일기 id를 위해 id를 1추가함
     setData([newItem, ...data]); //기존 배열 앞에 새로운 아이템을 추가
   };
+  const onRemove = (targetId) => {
+    console.log(targetId);
+    console.log(`${targetId}가 삭제되었습니다`);
+    const newDiaryList = data.filter((it) => it.id !== targetId);
+    console.log(newDiaryList);
+    setData(newDiaryList);
+  };
+  const onEdit = (targetId, newContent) => {
+    setData(
+      data.map((it) =>
+        it.id === targetId ? { ...it, content: newContent } : it
+      )
+    );
+    //모든 요소에 수정대상이라면 원래있던 데이터를 수정할 것이고 { ...it, content: newContent }
+    //아니면 원본 데이터를 유지한다 ( it )
+    //map을 이용해서 수정 대상 찾고 새로운 배열을 만들어서 setData에 전달
+  };
   return (
     <div className="App">
       <DiaryEditor onCreate={onCreate} />
-      <DiaryList diaryList={data} />
+      <DiaryList diaryList={data} onRemove={onRemove} onEdit={onEdit} />
     </div>
   );
 }

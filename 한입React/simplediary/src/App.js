@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-//import Lifecycle from "./Lifecycle";
+import OptimizeTest from "./OptimizeTest";
+import Lifecycle from "./Lifecycle";
 //API 주소
 //https://jsonplaceholder.typicode.com/comments
 
@@ -40,7 +41,6 @@ function App() {
     const res = await fetch(
       "https://jsonplaceholder.typicode.com/comments"
     ).then((res) => res.json());
-    console.log(res);
 
     const initData = res.slice(0, 20).map((it) => {
       return {
@@ -72,10 +72,8 @@ function App() {
     setData([newItem, ...data]); //기존 배열 앞에 새로운 아이템을 추가
   };
   const onRemove = (targetId) => {
-    console.log(targetId);
     console.log(`${targetId}가 삭제되었습니다`);
     const newDiaryList = data.filter((it) => it.id !== targetId);
-    console.log(newDiaryList);
     setData(newDiaryList);
   };
   const onEdit = (targetId, newContent) => {
@@ -88,13 +86,24 @@ function App() {
     //아니면 원본 데이터를 유지한다 ( it )
     //map을 이용해서 수정 대상 찾고 새로운 배열을 만들어서 setData에 전달
   };
+  const getDiaryAnalysis = useMemo(() => {
+    const goodCount = data.filter((it) => it.emotion >= 3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length) * 100;
+    return { goodCount, badCount, goodRatio };
+  }, [data.length]);
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
   return (
     <div className="App">
-      {/*
       useEffect 사용해보기
       <Lifecycle />
-      */}
+      React.memo 사용해보기
+      <OptimizeTest />
       <DiaryEditor onCreate={onCreate} />
+      <div>전체 일기 : {data.length}</div>
+      <div>기분 좋은 일기 개수 : {goodCount}</div>
+      <div>기분 나쁜 일기 개수 : {badCount}</div>
+      <div>기분 좋은 일기 비율 : {goodRatio}%</div>
       <DiaryList diaryList={data} onRemove={onRemove} onEdit={onEdit} />
     </div>
   );

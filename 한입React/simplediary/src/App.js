@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import OptimizeTest from "./OptimizeTest";
-import Lifecycle from "./Lifecycle";
+// import OptimizeTest from "./OptimizeTest";
+// import Lifecycle from "./Lifecycle";
 //API 주소
 //https://jsonplaceholder.typicode.com/comments
 
@@ -95,10 +95,10 @@ function App() {
   const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
   return (
     <div className="App">
-      useEffect 사용해보기
+      {/* useEffect 사용해보기
       <Lifecycle />
       React.memo 사용해보기
-      <OptimizeTest />
+      <OptimizeTest /> */}
       <DiaryEditor onCreate={onCreate} />
       <div>전체 일기 : {data.length}</div>
       <div>기분 좋은 일기 개수 : {goodCount}</div>

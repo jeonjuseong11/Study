@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 const DiaryItem = ({
   onRemove,
   onEdit,
@@ -8,6 +8,9 @@ const DiaryItem = ({
   emotion,
   id,
 }) => {
+  useEffect(() => {
+    console.log(`${id}번째 아이템 렌더!`);
+  });
   const handleRemove = () => {
     //삭제 기능 따로 빼기
     console.log(id);
@@ -76,4 +79,4 @@ const DiaryItem = ({
     </div>
   );
 };
-export default DiaryItem;
+export default React.memo(DiaryItem);

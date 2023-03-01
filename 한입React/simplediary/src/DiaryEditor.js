@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 const DiaryEditor = ({ onCreate }) => {
-  const authorInput = useRef();
   //React.MutableRefObject -> html, DOM요소에 접근할 수 있게 함
   const contentInput = useRef();
+  const authorInput = useRef();
   const [state, setState] = useState({ author: "", content: "", emotion: 1 });
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -59,4 +59,4 @@ const DiaryEditor = ({ onCreate }) => {
     </div>
   );
 };
-export default DiaryEditor;
+export default React.memo(DiaryEditor);

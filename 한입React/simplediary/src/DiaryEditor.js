@@ -1,5 +1,8 @@
 import React, { useState, useRef } from "react";
-const DiaryEditor = ({ onCreate }) => {
+import { useContext } from "react";
+import { DiaryDispatchContext } from "./App";
+const DiaryEditor = () => {
+  const { onCreate } = useContext(DiaryDispatchContext);
   //React.MutableRefObject -> html, DOM요소에 접근할 수 있게 함
   const contentInput = useRef();
   const authorInput = useRef();

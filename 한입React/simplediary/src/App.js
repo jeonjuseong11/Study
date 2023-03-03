@@ -1,5 +1,10 @@
-import { useCallback } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+  useReducer,
+} from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
@@ -8,35 +13,34 @@ import DiaryList from "./DiaryList";
 //API 주소
 //https://jsonplaceholder.typicode.com/comments
 
-// const dummyList = [
-//   {
-//     id: 1,
-//     author: "전주성",
-//     content: "HI1",
-//     emotion: 5,
-//     created_date: new Date().getTime(),
-//     //Date객체를 ms로 숫자로 변환해서 저장
-//   },
-//   {
-//     id: 2,
-//     author: "전주성2",
-//     content: "HI2",
-//     emotion: 3,
-//     created_date: new Date().getTime(),
-//     //Date객체를 ms로 숫자로 변환해서 저장
-//   },
-//   {
-//     id: 3,
-//     author: "전주성3",
-//     content: "HI3",
-//     emotion: 1,
-//     created_date: new Date().getTime(),
-//     //Date객체를 ms로 숫자로 변환해서 저장
-//   },
-// ];
-
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "INIT": {
+      return action.data; //geData의 initData
+    }
+    case "CREATE": {
+      const created_date = new Date().getTime();
+      const newItem = {
+        ...action.data,
+        created_date,
+      };
+      return [newItem, ...state];
+    }
+    case "REMOVE":
+      return state.filter((it) => it.id !== action.targetId);
+    case "EDIT":
+      return state.map((it) =>
+        it.id === action.targetId ? { ...it, content: action.newContent } : it
+      );
+    default:
+      return state; //값이 변화되지 않음
+  }
+};
+//부가적으로 내보내는 것
+export const DiaryStateContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
 function App() {
-  const [data, setData] = useState([]);
+  const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(1);
   const getData = async () => {
     const res = await fetch(
@@ -53,7 +57,7 @@ function App() {
         id: dataId.current++,
       };
     });
-    setData(initData);
+    dispatch({ type: "INIT", data: initData });
   };
 
   useEffect(() => {
@@ -61,31 +65,26 @@ function App() {
   }, []);
 
   const onCreate = useCallback((author, content, emotion) => {
-    const created_date = new Date().getTime();
-    const newItem = {
-      author,
-      content,
-      emotion,
-      created_date,
-      id: dataId.current, //0이라는 값을 가르킴
-    };
+    dispatch({
+      type: "CREATE",
+      data: { author, content, emotion, id: dataId.current },
+    });
     dataId.current += 1; //다음 일기 id를 위해 id를 1추가함
-    setData((data) => [newItem, ...data]); //기존 배열 앞에 새로운 아이템을 추가
   }, []);
   const onRemove = useCallback((targetId) => {
     console.log(`${targetId}가 삭제되었습니다`);
-    setData((data) => data.filter((it) => it.id !== targetId));
+    // setData((data) => data.filter((it) => it.id !== targetId));
+    dispatch({ type: "REMOVE", targetId });
   }, []);
   const onEdit = useCallback((targetId, newContent) => {
-    setData((data) =>
-      data.map((it) =>
-        it.id === targetId ? { ...it, content: newContent } : it
-      )
-    );
+    dispatch({ type: "EDIT", targetId, newContent });
   }, []);
   //모든 요소에 수정대상이라면 원래있던 데이터를 수정할 것이고 { ...it, content: newContent }
   //아니면 원본 데이터를 유지한다 ( it )
   //map을 이용해서 수정 대상 찾고 새로운 배열을 만들어서 setData에 전달
+  const memoizedDispatches = useMemo(() => {
+    return { onCreate, onRemove, onEdit };
+  }, []);
 
   const getDiaryAnalysis = useMemo(() => {
     const goodCount = data.filter((it) => it.emotion >= 3).length;
@@ -95,18 +94,22 @@ function App() {
   }, [data.length]);
   const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
   return (
-    <div className="App">
-      {/* useEffect 사용해보기
+    <DiaryStateContext.Provider value={data}>
+      <DiaryDispatchContext.Provider value={memoizedDispatches}>
+        <div className="App">
+          {/* useEffect 사용해보기
       <Lifecycle />
       React.memo 사용해보기
       <OptimizeTest /> */}
-      <DiaryEditor onCreate={onCreate} />
-      <div>전체 일기 : {data.length}</div>
-      <div>기분 좋은 일기 개수 : {goodCount}</div>
-      <div>기분 나쁜 일기 개수 : {badCount}</div>
-      <div>기분 좋은 일기 비율 : {goodRatio}%</div>
-      <DiaryList diaryList={data} onRemove={onRemove} onEdit={onEdit} />
-    </div>
+          <DiaryEditor />
+          <div>전체 일기 : {data.length}</div>
+          <div>기분 좋은 일기 개수 : {goodCount}</div>
+          <div>기분 나쁜 일기 개수 : {badCount}</div>
+          <div>기분 좋은 일기 비율 : {goodRatio}%</div>
+          <DiaryList />
+        </div>
+      </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
   );
 }
 
